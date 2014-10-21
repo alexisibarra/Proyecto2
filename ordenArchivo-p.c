@@ -15,9 +15,12 @@
  *
  * =====================================================================================
  */
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sysexits.h>
+#include <unistd.h>
+
 
 void usage( char tipo ){
   printf ("\nSINOPSIS:\n\t ordenArchivo-%c NumEnteros NumNiveles " 
@@ -34,6 +37,29 @@ void usage( char tipo ){
   );
 }
 
+/* 
+ * ===  FUNCTION  ======================================================================
+ *         Name:  setNumbersInFile
+ *  Description:  
+ * =====================================================================================
+ */
+  int
+setNumbersInFile ( char* path, int* numbers, int cantNum )
+{
+  FILE* fp = NULL;
+
+  if ((fp = fopen(path, "w")) == 0){
+    perror("El archivo no se puede abrir; fopen");
+    exit(EX_USAGE);
+  }
+
+  int n;
+  for ( n = 0; n < cantNum; n += 1 ) {
+    fprintf ( fp, "%d\n", numbers[n] );
+  }
+
+  return 0;
+}		/* -----  end of function setNumbersInFile  ----- */
 
 /* 
  * ===  FUNCTION  ======================================================================
@@ -41,56 +67,92 @@ void usage( char tipo ){
  *  Description:  
  * =====================================================================================
  */
-  int *
-getNumbersFromFile ( char* path )
+ int
+getNumbersFromFile ( char* path, int* numbers, int cantNum )
 {
-  int * numbers;
   FILE* fp = NULL;
-  int i = 0;
+  int numRead = 0;
+  int counter = 0;
 
   if ((fp = fopen(path, "r")) == 0){
-    perror("El archivo no existe; fopen");
-
+    perror("El archivo no se puede abrir; fopen");
     exit(EX_USAGE);
   }
 
-  fscanf (fp, "%d", &i);    
-  while (!feof (fp))
-    {  
-      printf ("%d ", i);
-      fscanf (fp, "%d", &i);      
-    }
+  while (!feof (fp)) {  
+    if ( fscanf (fp, "%d", &numRead) > 0 ) {
+      numbers[counter] = numRead;
+      counter++;
+    } 
+  }
+
   fclose (fp); 
 
-  return numbers;
+  if (counter != cantNum){
+    fprintf(stderr, "Error en cantidad de números en línea de comandos y/o"
+        " archivo de entrada\n");
+    exit(EX_DATAERR);
+  } 
+
+  return 0;
 }		/* -----  end of function getNumbersFromFile  ----- */
 
-/* 
- * ===  FUNCTION  ======================================================================
- *         Name:  main
- *  Description:  
- * =====================================================================================
- */
-  int
-main ( int argc, char *argv[] )
-{
-	if (argc != 5) {
-		puts("Se debe pasar exactamente cuatro (4) argumentos.");
-    usage('p');
-		exit(EX_USAGE);
-	}
-  
-  int numEnteros = atoi(argv[1]);
-  int numNiveles = atoi(argv[2]);
-  int fileIN = atoi(argv[3]);
-  int fileOUT= atoi(argv[4]);
+///* 
+// * ===  FUNCTION  ======================================================================
+// *         Name:  main
+// *  Description:  
+// * =====================================================================================
+// */
+//  int
+//main ( int argc, char *argv[] )
+//{
+//	if (argc != 5) {
+//		puts("Se debe pasar exactamente cuatro (4) argumentos.");
+//    usage('p');
+//		exit(EX_USAGE);
+//	}
+//  
+//  int numEnteros = atoi(argv[1]);
+//  int numNiveles = atoi(argv[2]);
+//  char* fileIN = argv[3];
+//  char* fileOUT = argv[4];
+//
+//  int numbers[numEnteros];
+//
+//  if ( numEnteros < 0 || numNiveles < 0) {
+//    fprintf(stderr, "Los números introducidos deben ser mayores a cero\n");
+//    usage('p');
+//		exit(EX_USAGE);
+//  }
+//
+//  getNumbersFromFile(fileIN, numbers, numEnteros);
+//  setNumbersInFile(fileOUT, numbers, numEnteros);
+//
+////  int n;
+////
+////  for ( n = 0; n < numEnteros; n += 1 ) {
+////    printf ( "%d\n", numbers[n] );
+////  }
+//
+//}				/* ----------  end of function main  ---------- */
 
-  if ( numEnteros < 0 || numNiveles < 0) {
-    printf ( "%d\n", numEnteros );
-		puts("Los números introducidos deben ser mayores a cero");
-    usage('p');
-		exit(EX_USAGE);
-  }
-  return EXIT_SUCCESS;
-}				/* ----------  end of function main  ---------- */
+int main(int argc, char* argv[]) {
+    if (argc < 2)
+        return 1; /* TODO: better error handling */
 
+    FILE* f = fopen(argv[1], "rb");
+
+    /* TODO: check f is not NULL */
+
+    /* Read one byte */    
+    int first = fgetc(f);
+
+    if (first != EOF)
+        printf("first byte = %x\n", (unsigned)first);
+
+    /* TODO else read failed, empty file?? */
+
+    fclose(f);
+
+    return 0;
+}
