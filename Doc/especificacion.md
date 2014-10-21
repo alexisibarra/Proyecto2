@@ -75,8 +75,8 @@ realizando su trabajo.
   Inicialmente el proceso raíz reparte el
   trabajo entre sus dos hijos en partes iguales siempre que sea posible. En
   cualquiera caso, a cada proceso hijo le tocará una porción de enteros a
-  ordenar, ni.  Sucesivamente cada proceso realiza la misma división entre sus
-  dos hijos con sus respectivos ni enteros, hasta llegar a las hojas. Cada
+  ordenar, *ni*.  Sucesivamente cada proceso realiza la misma división entre sus
+  dos hijos con sus respectivos *ni* enteros, hasta llegar a las hojas. Cada
   proceso recibirá (heredará) de su proceso padre inmediato los siguientes
   valores:
 
@@ -94,7 +94,7 @@ realizando su trabajo.
   ordenarán 5 elementos. 
   
   Asegúrese de que cada proceso realiza los cálculos necesarios para que al
-  crear a sus hijos, éstos hereden los valores de ni e inicio que le
+  crear a sus hijos, éstos hereden los valores de *ni* e inicio que le
   correspondan.
   
   Una vez que los procesos hojas terminen de ordenar su parte, crean un archivo
@@ -109,8 +109,7 @@ realizando su trabajo.
   enteros ordenados los escribirá el proceso raíz en el archivo
   ArchivoEnterosOrdenado que se recibe como argumento de llamada. 
   
-  En http://www.ldc.usb.ve/~yudith/docencia/ci-3825-taller/Ejemplo_Tiempo.c
-  encontrará un ejemplo del uso de rutinas para tomar tiempos. 
+  [Acá][1]  encontrará un ejemplo del uso de rutinas para tomar tiempos. 
   
   - **Los procesos hojas**
   
@@ -141,7 +140,7 @@ realizando su trabajo.
 
 - Inicialmente el hilo raíz (hilo del main) reparte el trabajo entre los 2(n-1)
   hilos hojas en partes iguales de ser posible. En cualquiera caso, a cada hilo
-  hoja, le tocará una porción de enteros a ordenar ni y un inicio. Estos dos
+  hoja, le tocará una porción de enteros a ordenar *ni* y un inicio. Estos dos
   valores los establece el hilo raíz antes de crear todos los hilos.  Ejemplo:
   Suponga que el archivo inicial tiene 18 elementos a ordenar y se indicó 3
   niveles de hilos. Esto significa que tendremos 4 hilos hojas (23-1), de los
@@ -162,9 +161,7 @@ todos de un mismo tipo de dato, que se pueden acceder aleatoriamente. El
 contenido de estos archivos no puede verse desde su terminal con los comandos
 type, more, etc. 
   
-En
-http://www.ldc.usb.ve/~figueira/Cursos/ci3825/taller/material/Ejemplos_C/Archivos/Archivos.c
-, encontrarán un ejemplo donde se generan, leen y escriben registros a un
+[Aquí][2], encontrarán un ejemplo donde se generan, leen y escriben registros a un
 archivo binario. En el ejemplo, los registros son estructuras, en el caso de
 este proyecto los elementos no son estructuras sino enteros.  Noten que tienen
 que utilizar fwrite para generar su archivo de prueba. 
@@ -212,3 +209,7 @@ deberá:
   archivos que contengan 25 y 215 enteros, con 5 y 15 niveles. Especifique la
   arquitectura que usó para realizar las ejecuciones (Intel dual core, dual
   processor, etc.).
+
+[1]: http://www.ldc.usb.ve/~yudith/docencia/ci-3825-taller/Ejemplo_Tiempo.c
+[2]: http://www.ldc.usb.ve/~figueira/Cursos/ci3825/taller/material/Ejemplos_C/Archivos/Archivos.c
+  
