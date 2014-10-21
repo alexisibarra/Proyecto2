@@ -12,17 +12,24 @@
 main ( int argc, char *argv[] )
 {
   int numElems = atoi(argv[1]);
-  int numbersArray[numElems];
-  genRandNumbersArray( atoi(argv[1]), numbersArray);
-  
-  printf ( "Antes de escribirlo en el binario:\n" );
-  printArray(numbersArray, numElems);
-  writeToBinFile("borrame", numbersArray, numElems);
+//  int numbersArray[numElems];
 
-  int readArray[numElems];
-  readFromBinFile("borrame", readArray, numElems);
+//  genRandNumbersArray( numElems, numbersArray);
+//  
+//  printArray(numbersArray, numElems);
+//
+//  writeToBinFile("borrame", numbersArray, numElems);
+
+  int readInit = atoi(argv[2]); 
+  int readSize = atoi(argv[3]);
+  int readArray[readSize];
+
   printf ( "Despues de escribirlo en el binario:\n" );
-  printArray(readArray, numElems);
+  /*readFromBinFile("borrame", readArray, numElems);*/
+  readChunkFromBinFile("./TestFiles/in15.bin", numElems, readArray, readInit, readSize);
+  printArray(readArray, readSize);
+//
+//  printArray(readArray, readSize);
 
   return EXIT_SUCCESS;
 }				/* ----------  end of function main  ---------- */

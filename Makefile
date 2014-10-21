@@ -1,16 +1,23 @@
-# Makefile para aplicacion "lista"
-CFLAGS	=
-CC	= gcc
-OBJS	= ordenArchivo-p.o   
 
-ordenArchivo-p: $(OBJS)
-		$(CC) $(CFLAGS) $(OBJS) -o $@
+CC         = gcc
+COPTS      = -Wall -g
+LDLIBS     = pthread
 
-main:	$(OBJS)
-		$(CC) $(CFLAGS) $(OBJS) -o $@
+execs      = prueba
 
-main.o:	main.c quickSort.h mergeSort.h  
-		$(CC) $(CFLAGS) -c main.c
+%.o: %.c ; $(CC) $(COPTS) -c $<
+%  : %.o ; $(CC) $(COPTS) -o $@ $^ $(LDLIBS:%=-l%)
 
-clean:
-		/bin/rm *.o main ordenArchivo-p
+.PHONY: all clean
+
+all: $(execs)
+clean: ; rm -f $(execs) ./*.o
+
+prueba  : prueba.o
+prueba.o: prueba.c
+
+main  : main.o
+main.o: main.c
+
+ordenArchivo-p  : ordenArchivo-p.o
+ordenArchivo-p.o: ordenArchivo-p.c
