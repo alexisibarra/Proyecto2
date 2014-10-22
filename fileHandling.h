@@ -34,14 +34,14 @@ writeToPlainFile ( char* fileName, int* array, int numElems )
 }		/* -----  end of function writeToBinFile  ----- */
 
   void
-writeToBinFile ( char* fileName, int* array, int numElems )
+writeToBinFile ( char* filename, int* array, int numElems )
 {
   FILE *fp;
 
-  if ((fp = fopen(fileName, "wb")) == NULL)
+  if ((fp = fopen(filename, "w")) == NULL)
     perror("fopen:");
 
-  if (fwrite(&array, sizeof(int), numElems+2, fp) == 0) {
+  if (fwrite(array, sizeof(int), numElems, fp) == 0) {
     perror("fwrite:");
     exit(0);
   }
@@ -53,14 +53,15 @@ readFromBinFile ( char* fileName, int* array, int numElems )
 {
   FILE *fp;
 
-  if ((fp = fopen(fileName, "rb")) == NULL)
-    perror("fopen:");
+  if ((fp = fopen(fileName, "rb")) == NULL){
+    perror("**fopen:");
+    exit(0);
+  }
 
-  if (fread(&array, sizeof(int), numElems+2, fp) == 0) {
+  if (fread(&array, sizeof(int), numElems, fp) == 0) {
     perror("fread:");
     exit(0);
   }
-  fprintf(fp, "%c", '\0');
   fclose(fp);
 }		/* -----  end of function readFromBinFile  ----- */
 
@@ -70,17 +71,17 @@ readChunkFromBinFile
 {
   FILE *fp;
   printf ( "\n" );
-  if ( ( initPos + numElems ) >= numElemsFile ){
+  if ( ( initPos + numElems ) > numElemsFile ){
     fprintf(stderr, "Imposible obtener la cantidad de elementos\n");
     exit(-1);
   }
 
-  if ((fp = fopen(fileName, "rb")) == NULL) {
+  if ((fp = fopen(fileName, "r")) == NULL) {
     perror("fopen:");
     exit(0);
   }
 
-  if(fseek(fp, sizeof(int)*(initPos+4),SEEK_SET)!=0)
+  if(fseek(fp, sizeof(int)*initPos,SEEK_SET)!=0)
   {
     perror("fseek");
     exit(0);
@@ -90,11 +91,6 @@ readChunkFromBinFile
     perror("fwe");
     exit(-1);
   }
-
-  printf ( "array[0] %d\n", array[0] );
-  printf ( "array[1] %d\n", array[1] );
-  printf ( "array[2] %d\n", array[2] );
-  printf ( "array[3] %d\n", array[3] );
 
   fclose(fp);
 
