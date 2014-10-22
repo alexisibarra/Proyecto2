@@ -50,15 +50,5 @@ main ( int argc, char *argv[] )
     usage('p');
     exit(EX_USAGE);
   }
-
-  /*getNumbersFromFile(fileIN, numbers, numEnteros);*/
-  /*setNumbersInFile(fileOUT, numbers, numEnteros);*/
-
-//  int n;
-//
-//  for ( n = 0; n < numEnteros; n += 1 ) {
-//    printf ( "%d\n", numbers[n] );
-//  }
-
 }				/* ----------  end of function main  ---------- */
 

@@ -3,7 +3,7 @@ CC         = gcc
 COPTS      = -Wall -g
 LDLIBS     = pthread
 
-execs      = prueba
+execs      = ordenArchivo-p
 
 %.o: %.c ; $(CC) $(COPTS) -c $<
 %  : %.o ; $(CC) $(COPTS) -o $@ $^ $(LDLIBS:%=-l%)
@@ -11,13 +11,10 @@ execs      = prueba
 .PHONY: all clean
 
 all: $(execs)
-clean: ; rm -f $(execs) ./*.o
+clean: ; rm -f $(execs) ./*.o ordenArchivo-p ordenArchivo-h
 
-prueba  : prueba.o
-prueba.o: prueba.c
-
-main  : main.o
-main.o: main.c
+ordenArchivo-p  : ordenArchivo-p.o
+ordenArchivo-p.o: ordenArchivo-p.c
 
 ordenArchivo-p  : ordenArchivo-p.o
 ordenArchivo-p.o: ordenArchivo-p.c
